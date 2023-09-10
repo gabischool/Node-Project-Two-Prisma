@@ -2,7 +2,7 @@
 
 In this project, you will build API for a bookstore and use Prisma with SQlite.
 
-In this project, you will be building a backend application for a bookstore. They want us to create for them to add books in their database and manage the information of their bookstore. The books will have authors.
+In this project, you will be building a backend application for a bookstore. They want us to create for them a way to add books in their database and manage the information of their bookstore. The books will have authors.
 
 ## Set Up The Project With Git
 
