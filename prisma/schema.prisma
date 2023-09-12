@@ -11,41 +11,32 @@ datasource db {
 }
 
 model Author {
-  id Int @id @default(autoincrement())
-  name String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  books Book[]
+  id      Int      @id @default(autoincrement())
+  name    String
+  email   String
+  created DateTime @default(now())
+  updated DateTime @default(now())
+  books   Book[]
 }
-model Bookstore {
-  id        Int      @id @default(autoincrement())
-  name      String
-  location String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
-  books Book[]
-
-}
 model Book {
-  id Int @id @default(autoincrement())
-  bookId Int
-  bookstoreId Int 
-  title String
-  price String
-  image String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
-  
-  bookstore Bookstore @relation(fields: [bookstoreId], references: [id])
-  author Author @relation(fields: [bookId], references: [id])
-
-
-
-
-
+  id         Int         @id @default(autoincrement())
+  authorId   Int
+  title      String
+  price      Int
+  image      String
+  created    DateTime    @default(now())
+  updated    DateTime    @default(now())
+  author     Author      @relation(fields: [authorId], references: [id])
+  bookStores BookStore[]
 }
 
-
+model BookStore {
+  id       Int      @id @default(autoincrement())
+  bookId   Int
+  name     String
+  location String
+  created  DateTime @default(now())
+  updated  DateTime @default(now())
+  books    Book     @relation(fields: [bookId], references: [id])
+}
