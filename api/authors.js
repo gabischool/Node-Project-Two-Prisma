@@ -3,11 +3,6 @@ import prisma from "./lib/index.js";
 
 const router = express.Router();
 
-// router.get("/", (req, res) => {
-
-//   res.send("Hello World");
-// });
-
 // get all authors
 router.get("/", async (req, res) => {
   try {
@@ -85,7 +80,8 @@ router.put("/:id", async (req, res) => {
     res.status(500).json({  message: error.message });
   }
 });
-// update author
+
+// delete author
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;

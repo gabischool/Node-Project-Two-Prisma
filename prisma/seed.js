@@ -15,28 +15,52 @@ async function seed() {
     // Seed data for the Owner model
     await prisma.author.create({
       data: {
-        name: "AlI Omar  Abdi",
+        name: "Ali Omar  Abdi",
         email: "alikey@gmail.com",
       },
     });
 
+      await prisma.author.create({
+        data: {
+          name: "Mohemed Omar  Abdi",
+          email: "mohamed@gmail.com",
+        },
+      });
+
     await prisma.book.create({
       data: {
         authorId: 1,
-        title: "NAFTAYDAAY GACALO!",
-        price: 2,
+        title: "Naftaydaay Gacalo",
+        price: 10,
         image:
           "https://www.facebook.com/photo?fbid=315090881195805&set=a.191846326853595",
+      },
+    });
+    
+    await prisma.book.create({
+      data: {
+        authorId: 2,
+        title: "Dhab iyo Dhagax",
+        price: 10,
+        image:
+          "https://www.facebook.com/photo/?fbid=242887338416160&set=a.191846316853596",
       },
     });
 
     await prisma.bookStore.create({
       data: {
         bookId: 1,
-        name: "Barakad Market",
+        name: "Iqro Book Shop ",
         location: "Mogadisho - Somalia",
       },
     });
+      await prisma.bookStore.create({
+        data: {
+          bookId: 2,
+          name: "Iqro Book Shop ",
+          location: "Mogadisho - Somalia",
+        },
+      });
 
     console.log("Seed data created successfully.");
   } catch (error) {

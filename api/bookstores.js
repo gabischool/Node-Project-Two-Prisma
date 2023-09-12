@@ -3,6 +3,7 @@ import prisma from "./lib/index.js";
 
 const router = express.Router();
 
+// get all bookstores
 router.get("/", async (req, res) => {
   try {
     const bookStores = await prisma.bookStore.findMany();
@@ -18,6 +19,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// get bookstore by id
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -40,6 +42,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+
+// Create new BookStore
 router.post("/", async (req, res) => {
   try {
     const { bookId, name, location } = req.body;
@@ -66,6 +70,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+// update bookstore
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -97,6 +102,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+//delete bookstore
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
