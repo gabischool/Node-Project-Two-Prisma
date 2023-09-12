@@ -1,0 +1,30 @@
+-- CreateTable
+CREATE TABLE "Author" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Bookstore" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "name" TEXT NOT NULL,
+    "location" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Book" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "bookId" INTEGER NOT NULL,
+    "bookstoreId" INTEGER NOT NULL,
+    "title" TEXT NOT NULL,
+    "price" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "Book_bookstoreId_fkey" FOREIGN KEY ("bookstoreId") REFERENCES "Bookstore" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Book_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Author" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
