@@ -1,68 +1,70 @@
 import express from "express";
 import prisma from "./lib/index.js";
 
-const route = express.Router();
+const router = express.Router();
 
-// route.get("/", (req, res) => {
+// router.get("/", (req, res) => {
 
 //   res.send("Hello World");
 // });
 
 // get all authors
-route.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const authors = await prisma.author.findMany();
     if (authors.length === 0) {
-      res.status(404).json({ message: "No authors found" });
+      return res
+        .status(404)
+        .json({ status: 404, message: "Authores not found" });
     }
+
     res.json(authors);
   } catch (error) {
-    res.status(500).json({ message: "Failed a authors" });
+    res.status(500).json({  message: error.message });
   }
 });
 
 // get author by id
-route.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const author = await prisma.author.findUnique({
       where: { id: Number(req.params.id) },
     });
-    if (author) {
-      res.status(200).json(author);
-    } else {
-      res.status(404).json({ message: "author not found" });
+    if (!author) {
+      return res.status(404).json({ status: 404, message: "Author not found" });
     }
+
+    res.json(author);
   } catch (error) {
-    res.status(500).json({ message: "Failed to get author" });
+    res.status(500).json({  message: error.message });
   }
 });
-
-
-
 // create new Author
-route.post("/", async (req, res) => {
+router.post("/", async (req, res) => {
   try {
-    const { name } = req.body
+    const { name, email } = req.body;
     const author = await prisma.author.create({
-      data:{
-        name : name,
-      }
+      data: {
+        name: name,
+        email: email,
+      },
     });
-    if(author){
-    
-       res.status(200).json(`Successfully created  author ${author.name}`);
-    } else {
-      res.status(404).json({ message: "Author not found" });
+    if (!author) {
+      return res
+        .status(400)
+        .json({ status: 400, message: "Author was not created!" });
     }
 
-   
+    res
+      .status(200)
+      .json({  message: "Author successFully created!" });
   } catch (error) {
-    res.status(500).json({ message: "Failed to add author" });
+    res.status(500).json({  message: error.message });
   }
 });
 
 // update author
-route.put("/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
     const author = await prisma.author.update({
       where: {
@@ -70,32 +72,40 @@ route.put("/:id", async (req, res) => {
       },
       data: req.body,
     });
-    if (author) {
-      res.json(`successfully updated author with id ${req.params.id}`);
-    } else {
-      res.status(404).json({ message: "Author not found" });
+    if (!author) {
+      return res
+        .status(400)
+        .json({ status: 400, message: "Author was not updated!" });
     }
+
+    res
+      .status(200)
+      .json({  message: "Author successFully updated!" });
   } catch (error) {
-    res.status(500).json({ message: "Failed to update author" });
+    res.status(500).json({  message: error.message });
   }
 });
-// delete author
-
-route.delete("/:id", async (req, res) => {
+// update author
+router.delete("/:id", async (req, res) => {
   try {
+    const { id } = req.params;
     const author = await prisma.author.delete({
       where: {
-        id: Number(req.params.id),
+        id: Number(id),
       },
     });
-    if (author) {
-      res.status(200).json(`Successfully deleted author ${req.params.id} `);
-    } else {
-      res.status(404).json({ message: " author not found" });
+    if (!author) {
+      return res
+        .status(400)
+        .json({ status: 400, message: "Author was not deleted!" });
     }
-  } catch (err) {
-    res.status(404).json({ message: "Failed to delete author" });
+
+    res
+      .status(200)
+      .json({  message: `Author ${id} successFully deleted` });
+  } catch (error) {
+    res.status(500).json({  message: error.message });
   }
 });
 
-export default route;
+export default router;
