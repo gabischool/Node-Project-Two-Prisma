@@ -3,9 +3,9 @@ import prisma from "../api/lib/index.js";
 async function seed() {
   try {
     // Delete existing data
-    // await prisma.author.deleteMany();
-    // await prisma.book.deleteMany();
-    // await prisma.bookstore.deleteMany();
+    await prisma.author.deleteMany();
+    await prisma.book.deleteMany();
+    await prisma.bookstore.deleteMany();
 
     // Reset auto-increment counters
     await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name = 'Author'`;
