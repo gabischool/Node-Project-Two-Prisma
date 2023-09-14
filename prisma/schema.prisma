@@ -31,6 +31,7 @@ model Book {
   authorId Int
   title String
   price Int
+  image String
   created DateTime @default(now())
   updated DateTime @default(now())
   author  Author @relation(fields: [authorId], references: [id])
