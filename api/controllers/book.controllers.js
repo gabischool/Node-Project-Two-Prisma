@@ -35,11 +35,7 @@ export const add_book = async(req, res) => {
 
 export const get_books = async(req, res) => {
     try {
-        const books = await prisma.book.findMany({
-            where: {
-                userId: req.user.id
-            }
-        });
+        const books = await prisma.book.findMany();
         if (books.length == 0) {
             res.status(500).json({
                 status: false,

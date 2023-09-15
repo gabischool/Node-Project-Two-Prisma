@@ -3,6 +3,7 @@ import { About, Contact , Dashboard, Footer, Header, Login, Register, User_blogs
 import Home from "./pages/Home";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Book_operations from "./components/dashboard/book_operations.jsx";
 const App = () => {
   return (
     <>
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="User_profile" element={<User_profile/>}/>
           <Route path="User_books" element={<User_books/>}/>
           <Route path="User_blogs" element={<User_blogs/>}/>
+          <Route path="Book_operations" element={<Book_operations/>}/>
         </Route>
       </Routes>
       <Footer />
