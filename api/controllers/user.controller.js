@@ -168,6 +168,137 @@ export const get_user_byId = async(req, res) => {
 
 }
 
+
+export const getUserLogin = async(req, res) => {
+    try {
+        const user = await prisma.user.findFirst({
+            where: {
+                id: req.user.id
+            }
+        });
+        if (!user) {
+            res.status(404).json({
+                status: false,
+                message: 'Not Found Requested books'
+            })
+        }
+        res.status(200).json(user);
+
+    } catch (error) {
+        console.log('error', error.message);
+        res.status(500).json({
+            status: false,
+            message: 'unknown error try again'
+        })
+    }
+}
+
+
+//login
+
+export const user_login = async(req, res) => {
+
+    try {
+
+        const { email, password } = req.body
+
+        const user = await prisma.user.findUnique({
+            where: {
+                email: email
+            }
+        })
+        if (!user) {
+            res.status(404).send({
+                status: false,
+                message: 'user not exist'
+            })
+        }
+
+        const compare = comparePassword(password, user.password);
+
+        if (!compare) {
+            res.status(404).send({
+                status: false,
+                message: 'user not exist'
+            })
+        }
+
+        const token = jwt.sign({ id: user.id }, jwt_secret);
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        })
+        res.send({
+            user,
+            token
+        });
+
+    } catch (error) {
+        console.log(`error : ${error.message}`);
+    }
+
+};
+
+
+export const Logout = async(req, res) => {
+    try {
+
+        res.clearCookie('token');
+        res.send("LogOut Successfully");
+
+    } catch (err) {
+        console.log("error at loginOut", err);
+        res.status(400).send("unknown error");
+    }
+};
+
+
+
+
+
+
+
+
+
+
+// code blocked
+
+
+
+
+
+export const getUserProfile = async(req, res) => {
+
+    try {
+
+        const user = await prisma.user.findUnique({
+            where: {
+                id: req.userCookie.id
+            }
+        });
+
+        user.password = undefined;
+
+        res.status(200).send(user);
+
+    } catch (err) {
+        console.log("error at get user profile", err);
+        res.status(400).send("unknown error");
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
 // export const getUserLogin = async(req, res) => {
 //     const token = req.cookies.token;
 //     if (!token) {
@@ -232,71 +363,3 @@ export const get_user_byId = async(req, res) => {
 //         });
 //     }
 // };
-
-export const getUserLogin = async(req, res) => {
-    try {
-        const user = await prisma.user.findUnique({
-            where: {
-                id: req.user.id
-            }
-        });
-        if (!user) {
-            res.status(404).json({
-                status: false,
-                message: 'Not Found Requested books'
-            })
-        }
-        res.status(200).json(user);
-
-    } catch (error) {
-        console.log('error', error.message);
-        res.status(500).json({
-            status: false,
-            message: 'unknown error try again'
-        })
-    }
-}
-
-
-//login
-
-export const user_login = async(req, res) => {
-
-    try {
-
-        const { email, password } = req.body;
-        const user = await prisma.user.findUnique({
-            where: {
-                email: email
-            }
-        })
-
-        const compared_password = await comparePassword(password, user.password);
-        if (!compared_password) {
-            res.status(404).json({
-                status: false,
-                message: 'user doest`t exist'
-            })
-        }
-
-        const token = jwt.sign({ id: user.id }, jwt_secret);
-
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: false,
-        })
-
-
-        res.json({
-            message: 'Successfully Login',
-            user,
-            token,
-        })
-
-
-
-    } catch (error) {
-        console.log('error user_login', error);
-    }
-
-}

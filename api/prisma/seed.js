@@ -1,28 +1,14 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import prisma from "../lib/index.js";
 
-async function seed() {
+export const seed = async() => {
     try {
 
-        await prisma.user.deleteMany()
-        await prisma.book.deleteMany()
-
-        // await prisma.$executeRaw `DELETE FROM mysql_sequence WHERE name = "user"`
-        // await prisma.$executeRaw `DELETE FROM mysql_sequence WHERE name = "book"`
-
-        await prisma.$queryRaw `ALTER TABLE user AUTO_INCREMENT = 1`;
-        await prisma.$queryRaw `ALTER TABLE book AUTO_INCREMENT = 1`;
-
-        await prisma.user.create({
-            data: {
-                username: 'miirshe',
-                email: 'miirshe@gmail.com',
-                password: '12345'
-            }
-        })
+        await prisma.user.deleteMany();
+        await prisma.blog.deleteMany();
+        await prisma.book.deleteMany();
 
     } catch (error) {
-        console.log(`Seed Not Found ${error}`);
+        console.log(`error in a seed : ${error.message}`);
         process.exit(1);
     } finally {
         prisma.$disconnect();

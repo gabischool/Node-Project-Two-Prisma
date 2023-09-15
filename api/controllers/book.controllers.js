@@ -3,7 +3,7 @@ import prisma from "../lib/index.js";
 export const add_book = async(req, res) => {
 
     try {
-        const { b_name, b_category, b_trending, b_price, b_description } = req.body;
+        const { b_name, b_category, b_trending, b_price, b_description, b_image } = req.body;
         const book = await prisma.book.create({
             data: {
                 b_name: b_name,
@@ -11,10 +11,11 @@ export const add_book = async(req, res) => {
                 b_trending: b_trending,
                 b_price: b_price,
                 b_description: b_description,
-                userId: req.user.id
+                b_image: b_image,
+                userId: req.userCookie.id
             }
         })
-        console.log('what ', req.user);
+        console.log('what ', req.userCookie);
         if (!book) {
             res.status(404).json({
                 status: false,

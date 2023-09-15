@@ -1,16 +1,16 @@
 import jwt from 'jsonwebtoken'
 import { jwt_secret } from '../config/config.js';
 export const authenticate = (req, res, next) => {
-    const token = req.cookies.token;
+    const token = req.cookies.token
     if (!token) {
         return res.status(404).json({
             status: false,
-            message: 'unauthorized'
+            message: `unauthorized ${token} `
         })
     }
     try {
         const decode = jwt.verify(token, jwt_secret);
-        req.user = decode;
+        req.userCookie = decode;
         next();
     } catch (error) {
         console.log('error authenticating', error);
@@ -20,3 +20,11 @@ export const authenticate = (req, res, next) => {
         })
     }
 }
+
+export const protected_route = ((req, res) => {
+    res.json({
+        status: true,
+        message: 'Authenticated',
+        user: req.userCookie,
+    })
+})

@@ -22,6 +22,7 @@ CREATE TABLE `Book` (
     `b_trending` BOOLEAN NOT NULL,
     `b_price` DOUBLE NOT NULL,
     `b_description` VARCHAR(191) NOT NULL,
+    `b_image` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
 
