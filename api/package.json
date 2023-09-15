@@ -1,0 +1,35 @@
+{
+    "name": "api",
+    "version": "1.0.0",
+    "description": "In this project, you will build API for a bookstore and use Prisma with SQlite.",
+    "main": "server.js",
+    "type": "module",
+    "directories": {
+        "lib": "lib"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon server.js",
+        "seed": "node prisma/seed.js",
+        "prisma-migrate": "npx prisma migrate dev"
+    },
+    "keywords": [],
+    "author": "Duran Ali",
+    "license": "ISC",
+    "dependencies": {
+        "@prisma/client": "^5.2.0",
+        "bcryptjs": "^2.4.3",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2",
+        "joi": "^17.10.1",
+        "jsonwebtoken": "^9.0.2",
+        "mysql": "^2.18.1",
+        "nodemon": "^3.0.1",
+        "prisma": "^5.2.0"
+    },
+    "devDependencies": {
+        "prisma": "^5.2.0"
+    }
+}
