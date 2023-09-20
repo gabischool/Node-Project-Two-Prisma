@@ -1,6 +1,6 @@
 import { jwt_secret } from "../config/config.js";
 import prisma from "../lib/index.js"
-import { comparePassword, hasspassword } from "../utilities/user.utilities.js";
+import { hasspassword, compare_password } from "../utilities/user.utilities.js";
 import jwt from 'jsonwebtoken'
 export const register_user = async(req, res) => {
 
@@ -196,60 +196,104 @@ export const getUserLogin = async(req, res) => {
 
 //login
 
+// export const user_login = async(req, res) => {
+
+//     try {
+
+//         const { email, password } = req.body
+
+//         const user = await prisma.user.findUnique({
+//             where: {
+//                 email: email
+//             }
+//         })
+//         if (!user) {
+//             res.status(404).send({
+//                 status: false,
+//                 message: 'invalid username or password '
+//             })
+//         }
+
+//         const compare = comparePassword(password, user.password);
+
+//         if (!compare) {
+//             res.status(404).send({
+//                 status: false,
+//                 message: 'user not exist'
+//             })
+//         }
+
+//         const token = jwt.sign({ id: user.id }, process.env.ACESS_TOKEN_SECRET);
+
+//         res.cookie('token', token, {
+//             httpOnly: true,
+//             secure: false,
+//             maxAge: 7 * 24 * 60 * 60 * 1000
+//         })
+//         return res.json({ token: token });
+
+//     } catch (error) {
+//         console.log(`error : ${error.message}`);
+//     }
+
+// };
+
+
 export const user_login = async(req, res) => {
-
     try {
-
-        const { email, password } = req.body
+        const { email, password } = req.body;
 
         const user = await prisma.user.findUnique({
             where: {
-                email: email
-            }
-        })
-        if (!user) {
-            res.status(404).send({
-                status: false,
-                message: 'user not exist'
-            })
-        }
-
-        const compare = comparePassword(password, user.password);
-
-        if (!compare) {
-            res.status(404).send({
-                status: false,
-                message: 'user not exist'
-            })
-        }
-
-        const token = jwt.sign({ id: user.id }, jwt_secret);
-
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: false,
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
-        res.send({
-            user,
-            token
+                email: email,
+            },
         });
 
+        if (!user) {
+            res.status(404).json({
+                status: false,
+                message: 'Invalid username or password',
+            });
+        }
+
+        const compare = await compare_password(password, user.password);
+
+        if (!compare) {
+            res.status(404).json({
+                status: false,
+                message: 'Invalid username or password',
+            });
+        }
+
+        jwt.sign({ id: user.id }, jwt_secret, (err, token) => {
+
+            if (err) return res.status(404).json({ message: err.message });
+
+            res.cookie('autToken', token, {
+                httpOnly: true,
+                secure: false,
+                maxAge: 7 * 24 * 60 * 60 * 1000,
+            })
+            res.json({ token })
+
+        });
     } catch (error) {
-        console.log(`error : ${error.message}`);
+        console.log(`Error: ${error.message}`);
+        return res.status(500).json({
+            status: false,
+            message: 'Internal server error',
+        });
     }
-
 };
-
 
 export const Logout = async(req, res) => {
     try {
 
         res.clearCookie('token');
-        res.send("LogOut Successfully");
+        res.send("Logout Successfully");
 
     } catch (err) {
-        console.log("error at loginOut", err);
+        console.log("error at loginout", err);
         res.status(400).send("unknown error");
     }
 };

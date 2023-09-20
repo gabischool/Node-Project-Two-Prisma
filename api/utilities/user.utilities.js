@@ -12,11 +12,11 @@ export const hasspassword = async(password) => {
     }
 }
 
-export const comparePassword = async(password, comparePassword) => {
+export async function compare_password(password, c_password) {
     try {
 
-        const comparedPassword = await bcrypt.compare(password, comparePassword);
-        return comparedPassword
+        const compared_password = await bcrypt.compare(password, c_password);
+        return compared_password
 
     } catch (error) {
         console.log(`Error Is Compare hassing Password : ${error}`);

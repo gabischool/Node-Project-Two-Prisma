@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { jwt_secret } from '../config/config.js';
 export const authenticate = (req, res, next) => {
-    const token = req.cookies.token
+    const token = req.headers.authorization
     if (!token) {
         return res.status(404).json({
             status: false,
@@ -9,8 +9,13 @@ export const authenticate = (req, res, next) => {
         })
     }
     try {
-        const decode = jwt.verify(token, jwt_secret);
-        req.userCookie = decode;
+        // jwt.verify(token, jwt_secret, (err, user) => {
+        //     if (err) return res.status(500).json({ message: err.message })
+        //     res.userCookie = user;
+        //     next();
+        // });
+        const docodedToken = jwt.verify(token, jwt_secret);
+        req.userCookie = docodedToken;
         next();
     } catch (error) {
         console.log('error authenticating', error);

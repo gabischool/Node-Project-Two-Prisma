@@ -8,8 +8,8 @@ export const add_book = async(req, res) => {
             data: {
                 b_name: b_name,
                 b_category: b_category,
-                b_trending: b_trending,
-                b_price: b_price,
+                b_trending: Boolean(b_trending),
+                b_price: parseFloat(b_price),
                 b_description: b_description,
                 b_image: b_image,
                 userId: req.userCookie.id
@@ -24,7 +24,7 @@ export const add_book = async(req, res) => {
         }
 
         res.status(200).json({
-            status: false,
+            status: true,
             message: 'successfully registered'
         })
 
