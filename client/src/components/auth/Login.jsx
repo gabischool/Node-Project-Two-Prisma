@@ -4,35 +4,44 @@ import { BiHide, BiShow } from "react-icons/bi";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useLoginUserMutation } from "../../redux/userSlice";
+import { toast } from "react-toastify";
+import axios from 'axios'
 const Login = () => {
-	const [ showPassword, setShowPassword] = useState('password');
-  const [ loginUser ] = useLoginUserMutation();
+  const [showPassword, setShowPassword] = useState("password");
+  const [loginUser] = useLoginUserMutation();
 
   const navigate = useNavigate();
   const initialValues = {
-    email: '',
-    password: ''
-  }
+    email: "",
+    password: "",
+  };
   const validationSchemas = Yup.object({
     email: Yup.string().required("email is required"),
-    password: Yup.string().required("password is required")
+    password: Yup.string().required("password is required"),
   });
 
-  const handleSubmit =  (values, { resetForm }) => {
-	try {
-    loginUser({
-      email : values.email,
-      password : values.password
-    }).unwrap().then((res)=>{
-      console.log('res',res);
-      navigate('/')
-    }).catch(err=>{
-      console.log('err',err);
-    })
-	} catch (error) {
-		console.log(`error submitting ${error}`);
-	}
-	resetForm();
+  const handleSubmit = async (values, { resetForm }) => {
+    try {
+      const { email, password } = values;
+      // const {data} = await axios.post('http://localhost:9000/api/user/login',{email,password})
+      // console.log('data',data);
+      // localStorage.setItem('authToken',data.token);
+      loginUser({
+        email,
+        password,
+      }).unwrap()
+        .then((res) => {
+          toast.success(res.message);
+          console.log("res", res);
+          navigate('/')
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    } catch (error) {
+      console.log(`error submitting ${error}`);
+    }
+    resetForm();
   };
   return (
     <div className="w-full">
@@ -51,21 +60,35 @@ const Login = () => {
                 type="text"
                 name="email"
                 className="p-3 outline-[#00ABA8] shadow w-full rounded"
-				placeholder='Enter Your Email'
+                placeholder="Enter Your Email"
               />
-              <ErrorMessage component="div" name="email" className="text-red-500" />
+              <ErrorMessage
+                component="div"
+                name="email"
+                className="text-red-500"
+              />
             </div>
             <div className="w-full space-y-2 relative">
               <Field
                 type={showPassword}
                 name="password"
                 className="p-3 outline-[#00ABA8] shadow w-full rounded"
-				placeholder='Enter Your Password'
+                placeholder="Enter Your Password"
               />
-			  {
-				showPassword == 'text' ? <BiShow onClick={()=>setShowPassword('password')} className="  cursor-pointer absolute right-5 top-1" size={25}/> : <BiHide onClick={()=>setShowPassword('text')} className=" cursor-pointer absolute right-5 top-1" size={25}/>
-			  }
-              <ErrorMessage 
+              {showPassword == "text" ? (
+                <BiShow
+                  onClick={() => setShowPassword("password")}
+                  className="  cursor-pointer absolute right-5 top-1"
+                  size={25}
+                />
+              ) : (
+                <BiHide
+                  onClick={() => setShowPassword("text")}
+                  className=" cursor-pointer absolute right-5 top-1"
+                  size={25}
+                />
+              )}
+              <ErrorMessage
                 component="div"
                 name="password"
                 className="text-red-500"
@@ -77,12 +100,17 @@ const Login = () => {
             >
               Login
             </button>
-			<p className="text-lg tracking-widest">I don`t have an account <Link to='/Register' className=" text-[#00ABA8]">Sign Up</Link></p>
+            <p className="text-lg tracking-widest">
+              I don`t have an account{" "}
+              <Link to="/Register" className=" text-[#00ABA8]">
+                Sign Up
+              </Link>
+            </p>
           </Form>
         </Formik>
       </div>
     </div>
-  )
+  );
 };
 
 export default Login;

@@ -53,3 +53,30 @@ export const get_books = async(req, res) => {
         })
     }
 }
+
+export const delete_book = async(req, res) => {
+    try {
+        const { id } = req.params;
+        const book = await prisma.book.delete({
+            where: {
+                id: Number(id),
+                userId: req.userCookie.id
+
+            }
+        });
+
+        if (!book) {
+            return res.status(404).json({
+                status: false,
+                message: 'book not found'
+            })
+        }
+
+        console.log('what ', req.userCookie);
+
+        res.send('successfull deleted');
+
+    } catch (error) {
+        console.log('error', error.message);
+    }
+}

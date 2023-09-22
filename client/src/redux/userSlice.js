@@ -1,9 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Base_Url } from './Base_Url'
-import Cookies from 'js-cookie'
-const setToken = (token) => {
-    return Cookies.set('token', token, { expires: 1 })
-}
 export const userSlice = createApi({
     reducerPath: 'userSlice',
     baseQuery: fetchBaseQuery({
@@ -49,13 +45,12 @@ export const userSlice = createApi({
                 method: 'POST',
                 body: logData
             }),
-            onQueryStarted: async(arg, { queryFulfilled }) => {
+            onQueryStarted: async(args, { queryFulfilled }) => {
                 try {
-                    const result = await queryFulfilled;
-                    console.log('login token', result);
-                    setToken(result.data.token)
-                } catch (error) {
-                    console.log(`error Loging in: ${error}`);
+                    const data = await querlyFulfilled
+                    localStorage.setItem('authToken', data.data.token);
+                } catch (err) {
+                    console.log('error login slice ', err.message);
                 }
             },
             invalidatesTags: ['user']

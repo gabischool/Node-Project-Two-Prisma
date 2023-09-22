@@ -12,7 +12,7 @@ const Header = () => {
           <span className="flex flex-row justify-start items-center">
             <SiQuickbooks size={30} className=" text-[#00ABA8]" />
             <h1 className=" text-2xl font-medium italic">
-              free<span className=" text-[#00ABA8]">ebook </span>
+              open<span className=" text-[#00ABA8]">library </span>
             </h1>
           </span>
           {menu ? (

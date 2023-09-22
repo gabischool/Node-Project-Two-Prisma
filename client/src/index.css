@@ -6,3 +6,9 @@
         @apply py-2 text-start
     }
 }
+
+@layer base {
+    body {
+        @apply bg-slate-50
+    }
+}

@@ -3,9 +3,11 @@ import { Outlet } from "react-router-dom";
 import { Sidebar } from "../../index.js";
 const Dashboard = () => {
   return (
-    <div className="w-full md:w-[90%] relative mt-28 grid grid-cols-1 gap-5">
+    <div>
+      <div className="w-full md:w-[90%] mx-auto pb-5 bg-slate-100 shadow rounded relative mt-28 flex flex-col md:flex-row justify-start items-start gap-5">
       <Sidebar />
       <Outlet />
+    </div>
     </div>
   );
 };

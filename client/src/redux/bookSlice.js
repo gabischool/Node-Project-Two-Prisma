@@ -3,7 +3,14 @@ import { Base_Url } from './Base_Url'
 export const bookSlice = createApi({
     reducerPath: 'bookSlice',
     baseQuery: fetchBaseQuery({
-        baseUrl: Base_Url
+        baseUrl: Base_Url,
+        prepareHeaders: (headers) => {
+            const token = localStorage.getItem('authToken');
+            if (token) {
+                headers.set('authorization', token);
+            }
+            return headers;
+        }
     }),
     tagTypes: ['book'],
     endpoints: (builder) => ({
@@ -17,11 +24,12 @@ export const bookSlice = createApi({
             providesTags: ['book']
         }),
         addbook: builder.mutation({
-            query: (newBook) => ({
-                url: 'books',
-                method: 'POST',
-                body: newBook
-            }),
+            query: (newBook) => (
+                console.log(`newbook ${newBook}`), {
+                    url: 'books',
+                    method: 'POST',
+                    body: newBook
+                }),
             invalidatesTags: ['book']
         }),
         updatebook: builder.mutation({

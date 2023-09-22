@@ -26,8 +26,6 @@ export { default as Sidebar }
 from './components/dashboard/Sidebar'
 export { default as User_profile }
 from './components/dashboard/User_profile'
-export { default as User_dash }
-from './components/dashboard/User_dash'
 export { default as User_books }
 from './components/dashboard/User_books'
 export { default as User_blogs }
