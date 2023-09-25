@@ -43,11 +43,10 @@ router.get('/:id', async (req, res) => {
 router.post('/create_bookStore', async (req, res) => {
     try {
         
-        const {bookId, name, location} = req.body;
+        const { name, location} = req.body;
 
-        const newBookStore = await prisma.bookStore.create({
+        const newBookStore = await prisma.bookstore.create({
             data: {
-                bookId,
                 name, 
                 location,
             },
@@ -68,15 +67,14 @@ router.put('/update_bookStore/:id', async (req, res) => {
     try {
         
         const {id} = req.params;
-        const {bookId, name, location} = req.body;
+        const {name, location} = req.body;
 
-        const updateBookStore = await prisma.bookStore.update({
+        const updateBookStore = await prisma.bookstore.update({
             where: {
                 id: Number(id),
             },
 
             data: {
-                bookId,
                 name,
                 location,
             }
@@ -98,7 +96,7 @@ router.delete('/delete_bookStore/:id', async (req, res) => {
         
         const {id} = req.params;
 
-        const deleteBookStore = await prisma.bookStore.delete({
+        const deleteBookStore = await prisma.bookstore.delete({
             where: {
                 id: Number(id),
             },

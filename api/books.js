@@ -43,11 +43,12 @@ router.get('/:id', async (req, res) => {
 router.post('/create_book', async (req, res) => {
     try {
         
-        const {authorId, title, price, image} = req.body;
+        const {authorId, bookstoreId, title, price, image} = req.body;
 
         const newBook = await prisma.book.create({
             data: {
                 authorId,
+                bookstoreId,
                 title,
                 price,
                 image,
@@ -69,7 +70,7 @@ router.put('/update_book/:id', async (req, res) => {
     try {
         
         const {id} = req.params;
-        const {authorId,title, price, image} = req.body;
+        const {authorId, bookstoreId, title, price, image} = req.body;
 
         const updateBook = await prisma.book.update({
             where: {
@@ -78,6 +79,7 @@ router.put('/update_book/:id', async (req, res) => {
 
             data: {
                 authorId,
+                bookstoreId,
                 title,
                 price,
                 image,

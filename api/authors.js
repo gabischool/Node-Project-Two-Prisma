@@ -43,12 +43,11 @@ router.get("/:id", async (req, res) => {
 router.post("/create_author", async (req, res) => {
     try {
         
-        const {name, email} = req.body;
+        const {name} = req.body;
 
         const newAuthor = await prisma.author.create({
             data: {
                 name,
-                email,
             },
         });
 
@@ -67,7 +66,7 @@ router.put('/update_author/:id', async (req, res) => {
     try {
         
         const { id } = req.params;
-        const {name, email} = req.body;
+        const {name} = req.body;
 
         const updateAuthor = await prisma.author.update({
             where: {
@@ -76,7 +75,6 @@ router.put('/update_author/:id', async (req, res) => {
             
             data: {
                 name,
-                email,
             },
         });
 
