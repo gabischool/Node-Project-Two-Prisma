@@ -39,7 +39,7 @@ Make sure your models and fields follow this instruction:
 
 1. bookstore - fields: id, name, location, created, updated
 2. author - fields: id, name, created, updated.
-3. book - fields: id, bookId, bookstoreId, title, price, image, created, updated.
+3. book - fields: id, authorId, bookstoreId, title, price, image, created, updated.
 
 Relations: `Author to Book is one to many`, meaning one author can have many books but each book has one author. Also `Bookstore to book is one to many`, meaning each Bookstore has many books but each book belongs to one store.
 
