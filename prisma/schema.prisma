@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./bookstore.db"
+}
+
+model Author {
+  id      Int      @id @default(autoincrement())
+  name    String
+  created DateTime @default(now())
+  updated DateTime @default(now())
+  Book    Book[]
+}
+
+model Bookstore {
+  id       Int      @id @default(autoincrement())
+  name     String
+  location String
+  created  DateTime @default(now())
+  updated  DateTime @default(now())
+  Book     Book[]
+}
+
+model Book {
+  id          Int       @id @default(autoincrement())
+  bookId      Int
+  bookstoreId Int
+  authorId    Int
+  title       String
+  price       Int
+  image       String
+  author      Author    @relation(fields: [authorId], references: [id])
+  bookstore   Bookstore @relation(fields: [bookstoreId], references: [id])
+  created     DateTime  @default(now())
+  updated     DateTime  @default(now())
+}
