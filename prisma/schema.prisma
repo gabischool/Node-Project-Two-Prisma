@@ -17,6 +17,7 @@ model Author {
   created  DateTime @default(now())
   updated DateTime @default(now())
   bookStore     Bookstores[]
+  Books Books[]
 }
 model Bookstores {
   id        Int   @id @default(autoincrement())
@@ -30,9 +31,11 @@ model Bookstores {
 }
 model Books {
   id    Int @id @default(autoincrement())
+  authorId Int
   BookName String
   BookstoreId Int
   created  DateTime @default(now())
   updated DateTime @default(now())
+  author Author @relation(fields: [authorId], references: [id])
   Bookstore Bookstores @relation(fields: [BookstoreId], references: [id])
 }

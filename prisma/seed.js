@@ -51,6 +51,7 @@ async function seed(){
             data : {
                 BookName :  'Daljir',
                 BookstoreId : 1,
+                authorId : 1,
                 
             }
         }) 
@@ -58,6 +59,7 @@ async function seed(){
             data : {
                 BookName :  'Nafteyday Gacalo',
                 BookstoreId : 2,
+                authorId : 2,
 
             }
         }) 
