@@ -42,12 +42,11 @@ router.get("/:id", async (req, res) => {
 
 router.post("/create-author", async (req, res) => {
   try {
-    const { name, email } = req.body;
+    const { name } = req.body;
 
     const newAuthor = await prisma.author.create({
       data: {
         name,
-        email,
       },
     });
 
@@ -68,7 +67,7 @@ router.post("/create-author", async (req, res) => {
 router.put("/update-author/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, email } = req.body;
+    const { name } = req.body;
 
     const updateAuthor = await prisma.author.update({
       where: {
@@ -77,7 +76,6 @@ router.put("/update-author/:id", async (req, res) => {
 
       data: {
         name,
-        email,
       },
     });
 
@@ -113,7 +111,7 @@ router.delete("/delete-author/:id", async (req, res) => {
 
     res
       .status(200)
-      .json({ status: 200, message: `Author successFully deleted` });
+      .json({ status: 200, message: `Author was successFully deleted` });
   } catch (error) {
     res.status(500).json({ status: 500, message: error.message });
   }
