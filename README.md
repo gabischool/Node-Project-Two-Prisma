@@ -58,3 +58,9 @@ Make sure to setup your `seed.js` file in `prisma` directory. Add all the data y
 
 - Create new routes for sign up and login and make sure you created new models in Prisma.
 - Change the database to `Planetscale`.
+
+
+
+### stetch 
+
+was not able to try the planescale 
