@@ -3,38 +3,50 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./data.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-
 model Author {
-  id Int @id @default(autoincrement())
-  name String
-  email String
+  id      Int      @id @default(autoincrement())
+  name    String
   created DateTime @default(now())
   updated DateTime @default(now())
-  books   Book[]
+  book    Book[]
 }
 
 model Book {
-  id Int @id @default(autoincrement())
-  authorId Int
-  title String
-  price Int
-  image String
-  created DateTime @default(now())
-  updated DateTime @default(now())
-  author  Author @relation(fields: [authorId], references: [id])
-  bookStores  BookStore[]
+  id          Int      @id @default(autoincrement())
+  authorId    Int
+  bookstoreId Int
+  title       String
+  price       Float
+  image       String
+  created     DateTime @default(now())
+  updated     DateTime @default(now())
+
+  author    Author    @relation(fields: [authorId], references: [id])
+  bookstore BookStore @relation(fields: [bookstoreId], references: [id])
+}
+
+
+model Owner {
+  id        Int         @id @default(autoincrement())
+  name      String
+  email     String      @unique
+  password  String
+  created   DateTime    @default(now())
+  updated   DateTime    @default(now())
+  bookstore BookStore[]
 }
 
 model BookStore {
-  id Int @id @default(autoincrement())
-  bookId  Int
-  name String
+  id       Int      @id @default(autoincrement())
+  ownerId  Int
+  name     String
   location String
-  created DateTime @default(now())
-  updated DateTime @default(now())
-  books  Book @relation(fields: [bookId], references: [id])
+  created  DateTime @default(now())
+  updated  DateTime @default(now())
+  book     Book[]
+  Owner    Owner    @relation(fields: [ownerId], references: [id])
 }

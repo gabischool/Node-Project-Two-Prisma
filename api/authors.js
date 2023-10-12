@@ -1,119 +1,102 @@
 import express from "express";
 import {json} from 'express'
+import bcrypt from 'bcrypt'
 import prisma from './lib/index.js'
+import jwt from "jsonwebtoken";
+import 'dotenv/config';
+const SECRET_KEY = process.env.SECRET_KEY;
 
-const route = express.Router()
 
-route.use(json())
+const router = express.Router()
 
-route.get('/', async (req, res) => {
-    try {
-        const authors = await prisma.author.findMany();
-        
-        if (authors.length > 0) {
-            res.json(authors);
-        } else {
-            res.status(404).json({ status: 404, message: "Authors not found" });
-        }
-    } catch (error) {
-        res.status(500).json({ status: 500, message: error.message });
+// Owner Sign Up - Name, email, password
+router.post("/signup", async (req, res) => {
+  const { name, email, password } = req.body;
+
+  try {
+
+    const existingAuthor = await prisma.author.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (existingAuthor) {
+      return res.status(409).json({
+        message: "Author already exists",
+      });
     }
-});
 
-route.get("/:id", async (req, res) => {
-    try {
-        
-        const { id } = req.params;
+    // hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-        const author = await prisma.author.findUnique({
-            where: {
-                id: Number(id),
-            },
-        });
+    // create the owner
+    const newAuthor = await prisma.author.create({
+      data: {
+        name: name,
+        email: email,
+        password: hashedPassword,
+      },
+    });
 
-        if(author) {
-            res.json(author)
-        }
-       
-    } catch (error) {
-        res.status(500).json({status: 500, message: error.message})
+    return res.status(201).json({
+      message: "Author created successfully",
+      author: newAuthor,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong",
+      error: error.message,
+    });
+  }
+}
+);
+// Owner Login
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // find the owner
+    const existingAuthor = await prisma.author.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!existingAuthor) {
+      return res.status(404).json({
+        message: "Author not found",
+      });
     }
-});
 
-route.post("/", async (req, res) => {
-    try {
-        const { name, email } = req.body;
+    // check if the password is correct
+    const isPasswordCorrect = await bcrypt.compare(password, existingOwner.password);
 
-        const createAuthor = await prisma.author.create({
-            data: {
-                name,
-                email
-            },
-        });
-
-        res.status(201).json({
-            status: 201,
-            message: "Author successfully created!",
-            data: createAuthor, 
-        });
-    } catch (error) {
-        res.status(500).json({ status: 500, message: error.message });
+    if (!isPasswordCorrect) {
+      return res.status(401).json({
+        message: "Invalid credentials",
+      });
     }
-});
 
+    // create a token
+    const token = jwt.sign(
+      {id: existingOwner.id, email: existingAuthor.email},
+      SECRET_KEY,
+      {expiresIn: "1h"}
+    )
 
-route.put('/:id', async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { name, email } = req.body;
+    return res.status(200).json({
+      message: "Author logged in successfully",
+      token: token,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Something went wrong",
+      error: error.message,
+    });
+  }
+}
+);
 
-        const updateAuthor = await prisma.author.update({
-            where: {
-                id: Number(id),
-            },
-            data: {
-                name,
-                email
-            },
-        });
+export default router;
 
-        if (!updateAuthor) {
-            return res.status(400).json({ status: 400, message: "Author was not updated!" });
-        }
-
-        res.status(200).json({
-            status: 200,
-            message: "Author successfully updated!",
-            data: updateAuthor
-        });
-    } catch (error) {
-        res.status(500).json({ status: 500, message: error.message });
-    }
-});
-
-route.delete('/:id', async (req, res) => {
-    try {
-        
-        const { id } = req.params;
-
-        const deleteAuther = await prisma.author.delete({
-            where: {
-                id: Number(id),
-            },
-        });
-
-        if(!deleteAuther) {
-            return res.status(400).json({status: 400, message: "Author was not deleted!"})
-        }
-
-        res.status(200).json({message: `Author  successFully deleted`})
-
-    } catch (error) {
-        res.status(500).json({status: 500, message: error.message})
-    }
-})
-
-
-
-
-export default route

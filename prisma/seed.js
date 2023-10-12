@@ -15,11 +15,14 @@ async function seed() {
     await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name="Authors"`;
   
 
-    // Seed data for the Owner model
+    
+
+    // Seed data for the Authors model
     await prisma.authors.create({
       data: {
         name: 'Ahmed Wali',
         email: 'ahmed@gmail.com',
+        book: 'The fairy tales',
         created: new Date('2022-03-30T00:00:00.000Z'),
         updated: new Date('2022-03-30T00:00:00.000Z'),
       },
@@ -29,6 +32,7 @@ async function seed() {
       data: {
         name: 'Abdirahman Yusuf',
         email: 'abdirahman@gmail.com',
+        book: 'The last ship',
         created: new Date('2022-03-30T00:00:00.000Z'),
         updated: new Date('2022-03-30T00:00:00.000Z'),
       },
@@ -38,17 +42,20 @@ async function seed() {
       data: {
         name: 'Fartun Jamac',
         email: 'fartun@gmail.com',
+        book: 'Think Big',
         created: new Date('2022-03-30T00:00:00.000Z'),
         updated: new Date('2022-03-30T00:00:00.000Z'),
       },
     });
 
-    // Seed data for the Restaurant model
+    
+
+    // Seed data for the Bookstore model
     await prisma.bookstore.create({
       data: {
-        name: 'Salama Restaurant',
-        location: 'Saint Cloud, MN',
-        ownerId: 1,
+        name: 'Daarulxadith',
+        location: 'Nairobi, Kenya',
+        bookstoreId: 1,
         created: new Date('2022-03-30T00:00:00.000Z'),
         updated: new Date('2022-03-30T00:00:00.000Z'),
       },
@@ -56,9 +63,9 @@ async function seed() {
 
     await prisma.bookstore.create({
       data: {
-        name: 'Afro Deli',
+        name: 'The great library',
         location: 'Minnesota',
-        ownerId: 2,
+        bookstoreId: 2,
         created: new Date('2022-03-30T00:00:00.000Z'),
         updated: new Date('2022-03-30T00:00:00.000Z'),
       },
@@ -66,28 +73,23 @@ async function seed() {
 
     await prisma.bookstore.create({
       data: {
-        name: 'Pizza Hut',
-        location: 'Saint Paul, MN',
-        ownerId: 1,
+        name: 'Madina Library',
+        location: 'Saudi Arabia, SA',
+        boostorekId: 3,
         created: new Date('2022-03-30T00:00:00.000Z'),
         updated: new Date('2022-03-30T00:00:00.000Z'),
       },
     });
 
-    // Seed data for the Rating model
-    await prisma.books.create({
-      data: {
-        rating: 5,
-        restaurantId: 1,
-        created: new Date('2022-03-30T00:00:00.000Z'),
-        updated: new Date('2022-03-30T00:00:00.000Z'),
-      },
-    });
 
+    
+    // Seed data for the Books model
     await prisma.books.create({
       data: {
-        rating: 4,
-        restaurantId: 3,
+        Price: Ksh100,
+        Title: 'The fairy tales',
+        Author: 'Ahmed Wali',
+        bookId: 1,
         created: new Date('2022-03-30T00:00:00.000Z'),
         updated: new Date('2022-03-30T00:00:00.000Z'),
       },
@@ -95,8 +97,21 @@ async function seed() {
 
     await prisma.books.create({
       data: {
-        rating: 3,
-        restaurantId: 2,
+        Price: Ksh300,
+        Title: 'The last ship',
+        Author: 'Abdirahman Yussuf',
+        bookId: 2,
+        created: new Date('2022-03-30T00:00:00.000Z'),
+        updated: new Date('2022-03-30T00:00:00.000Z'),
+      },
+    });
+
+    await prisma.books.create({
+      data: {
+        Price: Ksh200,
+        Title: 'Think Big',
+        Author: 'Fartun jamac',
+        bookId: 3,
         created: new Date('2022-03-30T00:00:00.000Z'),
         updated: new Date('2022-03-30T00:00:00.000Z'),
       },
