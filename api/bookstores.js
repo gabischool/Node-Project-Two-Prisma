@@ -77,19 +77,23 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const bookstore = await prisma.bookstore.delete({
+    const bookstore = await prisma.bookstore.findUnique({
+      where: {
+        id: Number(id),
+      },
+    })
+    if (!bookstore) {
+      return res.status(404).json({ message: "Bookstore was not found." });
+    }
+    await prisma.bookstore.delete({
       where: {
         id: Number(id),
       },
     });
-    if (!bookstore) {
-      return res
-        .status(400)
-        .json({ message: `Cannot delete bookstore with id of ${id}` });
-    }
     res.status(200).json({ message: "Bookstore deleted successfully" });
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Something went wrong while deleting the bookstore. Please try again later." });
   }
 });
 
