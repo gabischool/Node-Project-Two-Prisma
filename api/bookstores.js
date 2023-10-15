@@ -7,7 +7,7 @@ router.get("/", async (req, res) => {
   try {
     const bookstores = await prisma.bookstore.findMany();
     if (!bookstores) {
-      res.status(400).json({ message: "No books found" });
+      res.status(400).json({ message: "No bookstores were found" });
     }
     res.status(200).json({ message: bookstores });
   } catch (error) {
@@ -24,13 +24,27 @@ router.get("/:id", async (req, res) => {
       },
     });
     if (!bookstore) {
-      return res
+      res
         .status(400)
-        .json({ message: `No bookstore with id of ${id} were found` });
+        .json({ message: `Bookstore with id of ${id} were not found` });
     }
     res.status(200).json({ message: bookstore });
   } catch (error) {
     console.error(error);
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const { name, location } = req.body;
+    const bookstore = await prisma.bookstore.create({
+      data: {
+        name,
+        location,
+      },
+    });
+  } catch (error) {
+    console.log(error);
   }
 });
 
