@@ -6,12 +6,10 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const books = await prisma.book.findMany();
-    if (!books) {
-      res.status(400).json({ message: "No books found" });
-    }
     res.status(200).json({ message: books });
   } catch (error) {
     console.error(error);
+    res.status(400).json({ message: error });
   }
 });
 
@@ -26,33 +24,56 @@ router.get("/:id", async (req, res) => {
     if (!book) {
       return res
         .status(400)
-        .json({ message: `No book with id of ${id} were found` });
+        .json({ message: `Book with id of ${id} not found` });
     }
     res.status(200).json({ message: book });
   } catch (error) {
     console.error(error);
+    res.status(400).json({ message: error });
+  }
+});
+
+router.post("/", async (req, res) => {
+  try {
+    const { title, authorId, bookstoreId, image } = req.body;
+    const book = await prisma.book.create({
+      data: {
+        title,
+        authorId,
+        bookstoreId,
+        image,
+      },
+    });
+    res.status(200).json({ message: book });
+  } catch (error) {
+    console.error(error);
+    res.status(400).json({ message: error.message });
   }
 });
 
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, location } = req.body;
-    const book = await prisma.book.findUnique({
+    const { title, authorId, bookstoreId } = req.body;
+    const book = await prisma.book.update({
       where: {
-        id: id,
+        id: Number(id),
       },
       data: {
-        name,
-        location,
+        title,
+        authorId,
+        bookstoreId,
       },
     });
     if (!book) {
-      res.status(400).json({ message: `Cannot update book with id of ${id}` });
+      return res
+        .status(400)
+        .json({ message: `Book with id of ${id} not found` });
     }
     res.status(200).json({ message: book });
   } catch (error) {
     console.error(error);
+    res.status(400).json({ message: error });
   }
 });
 
@@ -67,11 +88,12 @@ router.delete("/:id", async (req, res) => {
     if (!book) {
       return res
         .status(400)
-        .json({ message: `Cannot delete book with id of ${id}` });
+        .json({ message: `Book with id of ${id} not found` });
     }
     res.status(200).json({ message: "Book deleted successfully" });
   } catch (error) {
     console.error(error);
+    res.status(400).json({ message: error });
   }
 });
 

@@ -20,6 +20,19 @@ model Bookstore {
   book Book[]
 }
 
+model Book {
+  id Int @id @default(autoincrement())
+  bookstoreId Int
+  authorId Int
+  title String
+  image String
+  created DateTime @default(now())
+  updated DateTime @default(now())
+
+  author Author @relation(fields: [authorId], references: [id])
+  bookstore Bookstore @relation(fields: [bookstoreId], references: [id])
+}
+
 model Author {
   id Int @id @default(autoincrement())
   name String
@@ -28,3 +41,4 @@ model Author {
 
   book Book[]
 }
+

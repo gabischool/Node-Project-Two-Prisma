@@ -43,6 +43,7 @@ router.post("/", async (req, res) => {
         location,
       },
     });
+    res.status(200).json({ message: bookstore });
   } catch (error) {
     console.log(error);
   }
@@ -52,23 +53,24 @@ router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { name, location } = req.body;
-    const bookstore = await prisma.bookstore.findUnique({
+    const bookstore = await prisma.bookstore.update({
       where: {
-        id: id,
+        id: Number(id),
       },
       data: {
-        name,
-        location,
+        name: name,
+        location: location,
       },
     });
     if (!bookstore) {
-      res
+      return res
         .status(400)
         .json({ message: `Cannot update bookstore with id of ${id}` });
     }
     res.status(200).json({ message: bookstore });
   } catch (error) {
-    console.error(error);
+    console.log(error);
+    res.status(200).json({ message: "wtf" });
   }
 });
 
