@@ -68,7 +68,7 @@ const Book_operations = () => {
 		resetForm();
 	}
   return (
-	<div className='w-full md:w-[90%] bg-slate-50'>
+	<div className='w-full mx-auto md:w-[90%] bg-white shadow mt-32 md:mt-28'>
 	<h4 className="p-4 w-full text-xl bg-[#00ABA8] text-white"> <Link to='/'>Home</Link>  / <span>Book Operations</span></h4>
 		<Formik
 		initialValues={initialValues}
@@ -78,7 +78,7 @@ const Book_operations = () => {
 			<div className=' w-full grid grid-cols-1'>
 					<div className='w-full relative'>
 						{/* <img src="" alt="" /> */}
-						<img className='w-32 mx-auto h-28 rounded-[50%]' src={selectedFiles} alt="" />
+						<img className='w-32 mx-auto h-28 rounded-[50%] bg-white/75 shadow-lg' src={selectedFiles} alt="" />
 						<input id='file' name='file' className='w-full hidden absolute right-0 top-7  p-3 rounded outline-[#00ABA8]' type="file"
 						onChange={handleFileChange} />
 						<label className='absolute left-[55%] top-6 p-2 rounded-xl bg-[#00ABA8] text-white' htmlFor="file">upload</label>
@@ -88,40 +88,42 @@ const Book_operations = () => {
 					<div className='w-full space-y-2'>
 						<label htmlFor="" className=' text-lg text-[#00ABA8]'>Book Name</label>
 						<Field className='w-full shadow p-3 rounded outline-[#00ABA8]' type='text' name='b_name' placeholder='Enter Book Name'/>
-						<ErrorMessage name='b_name' component='div'/>
+						<ErrorMessage className='text-red-500' name='b_name' component='div'/>
 					</div>
 					<div className='w-full space-y-2'>
 						<label htmlFor="" className=' text-lg text-[#00ABA8]'>Book Category</label>
 						<Field className='w-full shadow p-3 rounded outline-[#00ABA8]' as="select" name='b_category' placeholder='Enter Book Category'>
+						<option value="">-- select Category --</option>
 						<option value="science">science</option>
 						<option value="motivated">motivated</option>
 						<option value="philosophy">philosophy</option>
 						<option value="story">story</option>
 						</Field>
-						<ErrorMessage name='b_category' component='div'/>
+						<ErrorMessage name='b_category' component='div' className='text-red-500'/>
 					</div>
 				</div>
 				<div className='w-[90%] mx-auto grid grid-cols-1 md:grid-cols-2 gap-2'>
 					<div className='w-full space-y-2'>
 						<label htmlFor="" className=' text-lg text-[#00ABA8]'>Book Price</label>
 						<Field className='w-full p-3 shadow rounded outline-[#00ABA8]' type='text' name='b_price' placeholder='Enter Book Price'/>
-						<ErrorMessage name='b_price' component='div'/>
+						<ErrorMessage name='b_price' component='div' className='text-red-500'/>
 					</div>
 					<div className='w-full space-y-2'>
 						<label htmlFor="" className=' text-lg text-[#00ABA8]'>Book Trending</label>
 						<Field className='w-full p-3 shadow rounded outline-[#00ABA8]' as="select" name='b_trending' placeholder='Enter Book Trending'>
+						<option value="">-- select trending --</option>
 						<option value="false">false</option>
 						<option value="true">true</option>
 						</Field>
-						<ErrorMessage name='b_trending' component='div'/>
+						<ErrorMessage name='b_trending' component='div' className='text-red-500'/>
 					</div>
 				</div>
 				<div className='w-[90%] space-y-2 mx-auto'>
 					<label htmlFor="" className=' text-lg text-[#00ABA8]'>Book Description</label>
 				<Field className='w-full p-3 rounded shadow outline-[#00ABA8]' as='textarea' name='b_description' placeholder='Enter Book Description'/>
-				<ErrorMessage name='b_description' component='div'/>
+				<ErrorMessage name='b_description' component='div' className='text-red-500'/>
 				</div>
-				<button className=" w-[90%] mx-auto text-lg shadow rounded p-3 bg-[#00ABA8] hover:bg-white text-white hover:text-[#00ABA8]" type="submit"> Sumbit </button>
+				<button className=" w-[90%] mx-auto text-lg shadow rounded p-3 bg-[#00ABA8] hover:bg-white text-white hover:text-[#00ABA8]" type="submit">submit</button>
 			</Form>
 		</Formik>
 	</div>

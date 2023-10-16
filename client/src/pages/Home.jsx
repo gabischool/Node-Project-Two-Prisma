@@ -1,4 +1,4 @@
-import { Blogs, Books, Navbar, Services, Trending } from "../index";
+import { Books, Navbar, Services, Trending } from "../index";
 
 const Home = () => {
   return (
@@ -7,7 +7,6 @@ const Home = () => {
       <Services />
       <Trending />
       <Books />
-      <Blogs />
     </>
   );
 };

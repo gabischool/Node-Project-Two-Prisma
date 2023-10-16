@@ -39,12 +39,12 @@ const Header = () => {
           <Link className="text-lg font-medium" to="/">
             Home
           </Link>
-          <Link className="text-lg font-medium" to="/">
-            eBook
+          <Link className="text-lg font-medium" to="/Bookspage">
+            Books
           </Link>
-          <Link className="text-lg font-medium" to="/">
+          {/* <Link className="text-lg font-medium" to="/">
             Blogs
-          </Link>
+          </Link> */}
           <Link className="text-lg font-medium" to="/About">
             About
           </Link>
@@ -58,9 +58,6 @@ const Header = () => {
             <BiUserCircle size={20} />
             <span className="text-lg font-medium">Hi,miirshe</span>
           </span>
-          <Link className="text-lg font-medium" to="/Dashboard">
-            Dashboard
-          </Link>
         </div>
       </div>
     </div>
