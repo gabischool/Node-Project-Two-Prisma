@@ -1,0 +1,24 @@
+-- CreateTable
+CREATE TABLE "user" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "username" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "created" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- CreateTable
+CREATE TABLE "book" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "b_name" TEXT NOT NULL,
+    "b_category" TEXT NOT NULL,
+    "b_trending" BOOLEAN NOT NULL,
+    "b_price" REAL NOT NULL,
+    "b_description" TEXT NOT NULL,
+    "b_image" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "created" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "book_userId_fkey" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);

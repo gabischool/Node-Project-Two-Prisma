@@ -6,34 +6,30 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
-
-
-model User {
-  id             Int @id @default(autoincrement())
-  username       String @unique
-  email          String @unique
-  password       String
-  rollType       Boolean @default(false)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  books          Book[]
+model user {
+  id       Int      @id @default(autoincrement())
+  username String
+  email    String
+  password String
+  books    book[]
+  created  DateTime @default(now())
+  updated  DateTime @default(now())
 }
 
-model Book {
-  id            Int @id @default(autoincrement())
-  userId        Int
+model book {
+  id            Int      @id @default(autoincrement())
   b_name        String
   b_category    String
   b_trending    Boolean
   b_price       Float
   b_description String
   b_image       String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  users         User @relation(fields: [userId],references: [id])
+  userId        Int
+  userInfo      user     @relation(fields: [userId], references: [id])
+  created       DateTime @default(now())
+  updated       DateTime @default(now())
 }
-
