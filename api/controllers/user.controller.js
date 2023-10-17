@@ -321,11 +321,11 @@ export const getUserProfile = async(req, res) => {
             where: {
                 id: req.userCookie.id
             }
-        });
+        })
 
         user.password = undefined;
 
-        res.status(200).send(user);
+        res.json(user);
 
     } catch (err) {
         console.log("error at get user profile", err);

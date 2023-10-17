@@ -20,3 +20,9 @@ export { default as About }
 from './components/about/About'
 export { default as Bookspage }
 from './pages/Bookspage'
+export { default as Home }
+from './pages/Home'
+export { default as Book_operations }
+from './components/books/Book_operations'
+export { default as Private_Routes }
+from './Private_Routes'

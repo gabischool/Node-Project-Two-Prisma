@@ -1,10 +1,21 @@
 import { ErrorMessage, Field, Form, Formik } from "formik"
+import Cookies from "js-cookie"
+import { useEffect, useState } from "react"
 import { BsTelephoneFill } from "react-icons/bs"
 import { MdOutlineMarkEmailUnread } from "react-icons/md"
 import { PiAddressBookLight } from "react-icons/pi"
 import { Link } from "react-router-dom"
 
 const Contact = () => {
+	const [ getAuth , setAuth] = useState(false);
+	const token = Cookies.get('authToken')
+	useEffect(()=>{
+		if(token){
+			setAuth(true); 
+		}else{
+			setAuth(false)
+		}
+	},[token])
 	return (
 		<div className="w-full mt-24">
 			<div className="w-[90%] mx-auto flex flex-col justify-start items-start gap-2">
@@ -49,7 +60,12 @@ const Contact = () => {
 								<Field className='w-full p-4 shadow outline-[#00ABA8]' as='textarea' name='message' placeholder='Enter Your Subject' />
 								<ErrorMessage component='div' name="message" className="text-red-500" />
 							</div>
-							<button className=" w-full text-lg shadow rounded p-3 bg-[#00ABA8] hover:bg-white text-white hover:text-[#00ABA8]" type="submit">submit</button>
+							{
+								getAuth ? <button className=" w-full text-lg shadow rounded p-3 bg-[#00ABA8] hover:bg-white text-white hover:text-[#00ABA8]" type="submit">submit</button>
+
+								: <Link className=" w-full text-lg shadow rounded p-3 bg-[#00ABA8] hover:bg-white text-white hover:text-[#00ABA8]" to='/Login'>submit</Link>
+							}
+							
 						</Form>
 					</Formik>
 				</div>

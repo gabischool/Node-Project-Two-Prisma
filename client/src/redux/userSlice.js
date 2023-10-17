@@ -5,10 +5,21 @@ import Cookies from 'js-cookie'
 function setToken(token) {
     return Cookies.set('authToken', token)
 }
+
+function getToken() {
+    return Cookies.get('authToken')
+}
 export const userSlice = createApi({
     reducerPath: 'userSlice',
     baseQuery: fetchBaseQuery({
         baseUrl: Base_Url,
+        prepareHeaders: (headers) => {
+            const token = getToken();
+            if (token) {
+                headers.set('Authorization', token)
+            }
+            return headers
+        }
     }),
     tagTypes: ['user'],
     endpoints: (builder) => ({
@@ -70,6 +81,15 @@ export const userSlice = createApi({
             },
             providesTags: ['user']
         }),
+        getUserProfile: builder.query({
+            query: () => {
+                return {
+                    url: '/profile',
+                    method: 'GET'
+                }
+            },
+            providesTags: ['user']
+        })
     })
 })
-export const { useGetUserQuery, useGetUserAuthQuery, useRegisterUserMutation, useDeleteUserMutation, useUpdateUserMutation, useLoginUserMutation } = userSlice;
+export const { useGetUserQuery, useGetUserAuthQuery, useGetUserProfileQuery, useRegisterUserMutation, useDeleteUserMutation, useUpdateUserMutation, useLoginUserMutation } = userSlice;

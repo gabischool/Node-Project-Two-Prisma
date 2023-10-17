@@ -1,10 +1,12 @@
+import { FaRegEdit } from 'react-icons/fa';
+import { TiDelete } from 'react-icons/ti';
 import "react-multi-carousel/lib/styles.css";
-import { useDeleteBookMutation, useGetbooksQuery } from "../../redux/bookSlice.js";
-import { TiDelete } from 'react-icons/ti'
-import { FaRegEdit } from 'react-icons/fa'
-import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useDeleteBookMutation, useGetbooksQuery } from "../../redux/bookSlice.js";
+import { useGetUserProfileQuery } from "../../redux/userSlice.js";
 const Books = () => {
+  const { data: user = {} } = useGetUserProfileQuery()
   const { data: books = [] } = useGetbooksQuery();
   const [deleteBook] = useDeleteBookMutation();
   const handleDelete = (id) => {
@@ -36,10 +38,14 @@ const Books = () => {
                       <span className=" text-lg">{res.b_category}</span>
                       <span className="w-full text-lg text-right">${res.b_price}</span>
                     </div>
-                    <div className="mt-3 flex flex-row justify-end items-center gap-4">
-                      <Link to={`/Book_operations/${res?.id}`} state={res}><FaRegEdit size={20} className="text-[#00ABA8] cursor-pointer"/></Link>
-                      <TiDelete size={25} className="text-red-500 cursor-pointer" onClick={() => handleDelete(res?.id)} />
-                    </div>
+                    {
+                      user?.id == res?.userId && (
+                        <div className="mt-3 flex flex-row justify-end items-center gap-4">
+                          <Link to={`/Book_operations/${res?.id}`} state={res}><FaRegEdit size={20} className="text-[#00ABA8] cursor-pointer" /></Link>
+                          <TiDelete size={25} className="text-red-500 cursor-pointer" onClick={() => handleDelete(res?.id)} />
+                        </div>
+                      )
+                    }
                   </div>
                 </div>
               )
