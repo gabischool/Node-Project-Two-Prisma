@@ -10,17 +10,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
+model User {
   id       Int      @id @default(autoincrement())
   username String
-  email    String
+  email    String   @unique
   password String
-  books    book[]
   created  DateTime @default(now())
   updated  DateTime @default(now())
+  books    Book[]
 }
 
-model book {
+model Book {
   id            Int      @id @default(autoincrement())
   b_name        String
   b_category    String
@@ -29,7 +29,7 @@ model book {
   b_description String
   b_image       String
   userId        Int
-  userInfo      user     @relation(fields: [userId], references: [id])
+  userInfo      User     @relation(fields: [userId], references: [id])
   created       DateTime @default(now())
   updated       DateTime @default(now())
 }

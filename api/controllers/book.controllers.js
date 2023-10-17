@@ -42,8 +42,9 @@ export const get_books = async(req, res) => {
                 status: false,
                 message: 'Not Found Requested books'
             })
+        } else {
+            res.status(200).json(books);
         }
-        res.status(200).json(books);
 
     } catch (error) {
         console.log('error', error.message);

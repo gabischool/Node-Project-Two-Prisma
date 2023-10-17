@@ -27,7 +27,7 @@ const Services = () => {
 
 			<div className="p-5 cursor-pointer  rounded border-2 shadow hover:border-[#00ABA8] hover:shadow-2xl flex flex-col justify-center items-center gap-2 space-y-2">
 				<FcIdea className='text-[#00ABA8]' size={40}/>
-				<h1 className='text-2xl tracking-tighter'>Develop An Idea </h1>
+				<h1 className='text-2xl tracking-tighter'>Develop An Idea</h1>
 				<p className='text-xl tracking-tighter text-center'>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, illo.</p>
 			</div>
 			

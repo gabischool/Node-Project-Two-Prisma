@@ -1,5 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Base_Url } from './Base_Url'
+import Cookies from 'js-cookie'
+
+function setToken(token) {
+    return Cookies.set('authToken', token)
+}
 export const userSlice = createApi({
     reducerPath: 'userSlice',
     baseQuery: fetchBaseQuery({
@@ -47,8 +52,9 @@ export const userSlice = createApi({
             }),
             onQueryStarted: async(args, { queryFulfilled }) => {
                 try {
-                    const data = await querlyFulfilled
+                    const data = await queryFulfilled
                     localStorage.setItem('authToken', data.data.token);
+                    setToken(data.data.token)
                 } catch (err) {
                     console.log('error login slice ', err.message);
                 }

@@ -9,11 +9,6 @@ export const authenticate = (req, res, next) => {
         })
     }
     try {
-        // jwt.verify(token, jwt_secret, (err, user) => {
-        //     if (err) return res.status(500).json({ message: err.message })
-        //     res.userCookie = user;
-        //     next();
-        // });
         const docodedToken = jwt.verify(token, jwt_secret);
         req.userCookie = docodedToken;
         next();
