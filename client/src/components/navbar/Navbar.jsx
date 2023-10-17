@@ -1,7 +1,7 @@
 const Navbar = () => {
   return (
 	<nav className="w-full h-screen p-2 mt-20">
-		<div className="w-[90%] grid grid-cols-1 md:grid-cols-2 mx-auto gap-4 p-2">
+		<div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 p-2">
 			<div className=" flex flex-col justify-start items-start gap-4 mt-16 space-y-7">
 				<p className=" text-3xl text-[#00ABA8] tracking-tighter">all time bestseller books</p>
 				<h1 className="text-2xl tracking-tighter md:w-7/12 md:text-5xl">Get Your New Book Collections</h1>

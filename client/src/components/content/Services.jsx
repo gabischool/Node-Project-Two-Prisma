@@ -5,7 +5,7 @@ import { FcIdea } from 'react-icons/fc'
 const Services = () => {
   return (
 	<section className="w-full p-2">
-		<div className="w-[90%] mx-auto grid grid-cols-1 md:grid-cols-4 gap-5">
+		<div className="grid grid-cols-1 md:grid-cols-4 gap-5">
 
 			<div className="p-5 cursor-pointer rounded border-2 shadow hover:border-[#00ABA8] hover:shadow-2xl flex flex-col justify-center items-center gap-2 space-y-2">
 				<MdOutlineDeliveryDining className='text-[#00ABA8]' size={40}/>

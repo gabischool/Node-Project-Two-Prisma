@@ -23,7 +23,7 @@ const Trending = () => {
   };
   return (
     <div className="w-full p-2 mt-10">
-      <div className="w-[90%] mx-auto">
+      <div className="w-full">
         <h1 className=" text-2xl mb-10 text-[#00ABA8] tracking-tighter">Trending Books</h1>
         <Carousel responsive={responsive}>
 			{
