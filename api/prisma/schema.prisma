@@ -24,7 +24,7 @@ model Book {
   id            Int      @id @default(autoincrement())
   b_name        String
   b_category    String
-  b_trending    Boolean
+  b_trending    String
   b_price       Float
   b_description String
   b_image       String

@@ -8,7 +8,7 @@ export const add_book = async(req, res) => {
             data: {
                 b_name: b_name,
                 b_category: b_category,
-                b_trending: Boolean(b_trending),
+                b_trending: b_trending,
                 b_price: parseFloat(b_price),
                 b_description: b_description,
                 b_image: b_image,
@@ -39,12 +39,13 @@ export const update_book = async(req, res) => {
 
     try {
         const { b_name, b_category, b_trending, b_price, b_description, b_image } = req.body;
+        console.log('req body', req.body);
         const book = await prisma.book.updateMany({
             where: { id: Number(req.params.id) },
             data: {
                 b_name: b_name,
                 b_category: b_category,
-                b_trending: Boolean(b_trending),
+                b_trending: b_trending,
                 b_price: parseFloat(b_price),
                 b_description: b_description,
                 b_image: b_image,

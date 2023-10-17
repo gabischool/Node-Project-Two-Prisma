@@ -33,10 +33,11 @@ const Books = () => {
                   <img className="w-72 h-72 bg-white mx-auto" src={`../../../public/uploads/${res.b_image}`} alt="" />
                   <hr />
                   <div className="flex flex-col justify-start w-full p-2 gap-2">
-                    <span className=" text-xl">{res.b_name}</span>
-                    <div className="w-full flex flex-row justify-start items-center gap-4">
-                      <span className=" text-lg">{res.b_category}</span>
-                      <span className="w-full text-lg text-right">${res.b_price}</span>
+
+                    <div className="w-full flex flex-row justify-between items-center gap-4">
+                      <span className="w-fit text-xl">{res.b_name}</span>
+                      {/* <span className=" text-lg">{res.b_category}</span> */}
+                      <span className="w-fit text-lg text-right">${res.b_price}</span>
                     </div>
                     {
                       user?.id == res?.userId && (

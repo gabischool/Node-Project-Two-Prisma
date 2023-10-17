@@ -38,11 +38,12 @@ export const bookSlice = createApi({
             invalidatesTags: ['book']
         }),
         updatebook: builder.mutation({
-            query: ({ id, newBook }) => ({
-                url: `book/${id}`,
-                method: 'PUT',
-                body: newBook
-            }),
+            query: ({ id, newBook }) => (
+                console.log('update book', newBook), {
+                    url: `book/${id}`,
+                    method: 'PUT',
+                    body: newBook
+                }),
             invalidatesTags: ['book']
         }),
         deleteBook: builder.mutation({

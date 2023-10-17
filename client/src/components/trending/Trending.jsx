@@ -1,7 +1,12 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import {books} from '../../damy_data/data.js';
+import { useGetbooksQuery } from "../../redux/bookSlice.js";
 const Trending = () => {
+  const { data : books = [] } = useGetbooksQuery();
+  const trending_books = books?.filter(book => {
+    return book?.b_trending == "true";
+  })
+  console.log('trending_books',trending_books)
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -27,13 +32,13 @@ const Trending = () => {
         <h1 className=" text-2xl mb-10 text-[#00ABA8] tracking-tighter">Trending Books</h1>
         <Carousel responsive={responsive}>
 			{
-				books.map(res => {
+				trending_books?.map(res => {
 					return(
 						<div className=" w-[95%] border-2 shadow flex flex-col justify-start items-start space-y-2" key={res.id}>
-							<img className="w-72 h-80 mx-auto" src={res.b_image} alt="" />
-							<div className=" grid grid-cols-2 w-full p-3 gap-2 border-t-2">
-								<p className=" text-xl">{res.b_name}</p>
-								<p className=" text-lg text-right">{res.b_price}</p>
+							<img className="w-72 h-80 mx-auto" src={`../../../public/uploads/${res?.b_image}`} alt="" />
+							<div className="flex flex-row justify-start items-center w-full p-3 gap-5 border-t-2">
+								<span className=" w-fit text-lg">{res?.b_name}</span>
+								<span className="w-fit text-lg text-right">{res?.b_price}</span>
 							</div>
 						</div>
 					)
